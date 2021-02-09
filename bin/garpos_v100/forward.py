@@ -79,7 +79,7 @@ def calc_forward(shots, mp, nMT, icfg, svp, T0):
 		sigRTT = shots[~shots['flag']].ResiTT.std()
 		th0 = aveRTT + rsig * sigRTT
 		th1 = aveRTT - rsig * sigRTT
-		shots['flag'] = (shots['ResiTT'] > th0) | (shots['ResiTT'] < th1)
+		shots['flag'] = (shots['ResiTT'] > th0) | (shots['ResiTT'] < th1) | shots['iniflag']
 		aveRTT1 = shots[~shots['flag']].ResiTT.mean()
 		sigRTT1 = shots[~shots['flag']].ResiTT.std()
 
@@ -116,8 +116,8 @@ def calc_gamma(mp, shotdat, imp0, spdeg, knots):
 	a1 = []
 	for k, kn in enumerate(knots):
 		if len(kn) == 0:
-			a0.append( 0. )
-			a1.append( 0. )
+			a0.append( [0.]*len(shotdat) )
+			a1.append( [0.]*len(shotdat) )
 			continue
 		ct = mp[imp0[k]:imp0[k+1]]
 		bs = BSpline(kn, ct, spdeg, extrapolate=False)

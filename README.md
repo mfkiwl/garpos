@@ -3,17 +3,17 @@
 "GARPOS" (GNSS-Acoustic Ranging combined POsitioning Solver) is an analysis tool for GNSS-Acoustic seafloor positioning.
 
 ### Version
-Latest version is GARPOS v0.1.0 (Jul. 01. 2020)
+Latest version is GARPOS v1.0.0 (Feb. 8. 2021)
 
 
 # Citation
 
 ### for methodology
 
-Watanabe, S., Ishikawa, T., Yokota, Y., & Nakamura, Y. (2020). GARPOS: analysis software for the GNSS-A seafloor positioning with simultaneous estimation of sound speed structure. https://doi.org/10.31223/osf.io/t8dm4
+Watanabe, S., Ishikawa, T., Yokota, Y., & Nakamura, Y. (2020). GARPOS: analysis software for the GNSS-A seafloor positioning with simultaneous estimation of sound speed structure, Front. Earth Sci. (https://doi.org/10.3389/feart.2020.597532).
 
 ### for code
-Shun-ichi Watanabe, Tadashi Ishikawa, Yusuke Yokota, & Yuto Nakamura. (2020, August 20). GARPOS v0.1.0: Analysis tool for GNSS-Acoustic seafloor positioning (Version 0.1.0). Zenodo. http://doi.org/10.5281/zenodo.3992688
+Shun-ichi Watanabe, Tadashi Ishikawa, Yusuke Yokota, & Yuto Nakamura. (2020). GARPOS: Analysis tool for GNSS-Acoustic seafloor positioning (Version 1.0.0). Zenodo.
 
 ## Corresponding author
 
@@ -24,12 +24,12 @@ Shun-ichi Watanabe, Tadashi Ishikawa, Yusuke Yokota, & Yuto Nakamura. (2020, Aug
 
 # License
 
-"GARPOS" is distributed under the [GPL 3.0](https://www.gnu.org/licenses/gpl-3.0.html) license.
+"GARPOS" is distributed under the [GPL 3.0] (https://www.gnu.org/licenses/gpl-3.0.html) license.
 
 
 ### Algorithm and documentation
 
-Please see Watanabe, S., Ishikawa, T., Yokota, Y., and Nakamura, Y., (2020) https://doi.org/10.31223/osf.io/t8dm4
+Please see Watanabe, S., Ishikawa, T., Yokota, Y., and Nakamura, Y., (2020) https://doi.org/10.3389/feart.2020.597532
 
 
 # Requirements
@@ -61,23 +61,31 @@ When using GARPOS, you should prepare the following files.
 * Reference sound speed data csv file
 * Settings file (e.g., Settings.ini)
 
-Attached "sample/demo.py" is a sample driver code. 2 observation epochs are stored as demo data.
+"bin/solveSingleEpoch.py" is a driver code. 
+Two observation epochs are stored in "sample" directory as demo data.
+
+```bash
+cd sample
+./demo.sh
+```
+
+or run the program manually. 
 
 ```bash
 cd sample
 
 # to solve position for each transponder (for epoch SAGA.1903)
-python demo.py -i Settings-prep.ini -f initcfg/SAGA/SAGA.1903.kaiyo_k4-initcfg.ini -d demo_prep/SAGA
+solveSingleEpoch.py -i Settings-prep.ini -f initcfg/SAGA/SAGA.1903.kaiyo_k4-initcfg.ini -d demo_prep/SAGA
 # to solve position for each transponder (for epoch SAGA.1905)
-python demo.py -i Settings-prep.ini -f initcfg/SAGA/SAGA.1905.meiyo_m5-initcfg.ini -d demo_prep/SAGA
+solveSingleEpoch.py -i Settings-prep.ini -f initcfg/SAGA/SAGA.1905.meiyo_m5-initcfg.ini -d demo_prep/SAGA
 
 # to make the averaged array
-python makeFixCfg.py -d cfgfix --res_singles "demo_prep/SAGA/*res.dat"
+makeFixCfg.py -d cfgfix --res_singles "demo_prep/SAGA/*res.dat"
 
 # to solve in array-constraint condition (for epoch SAGA.1903)
-python demo.py -i Settings-fix.ini -f cfgfix/SAGA/SAGA.1903.kaiyo_k4-fix.ini -d demo_res/SAGA
+solveSingleEpoch.py -i Settings-fix.ini -f cfgfix/SAGA/SAGA.1903.kaiyo_k4-fix.ini -d demo_res/SAGA
 # to solve in array-constraint condition (for epoch SAGA.1905)
-python demo.py -i Settings-fix.ini -f cfgfix/SAGA/SAGA.1905.meiyo_m5-fix.ini -d demo_res/SAGA
+solveSingleEpoch.py -i Settings-fix.ini -f cfgfix/SAGA/SAGA.1905.meiyo_m5-fix.ini -d demo_res/SAGA
 ```
 
 The following files will be created in the directory (specified with "-d" option).
@@ -98,7 +106,7 @@ since it will create result files for all combinations of hyperparameters.
 
 + drive_garpos (in garpos_main.py)
  + parallelrun (in garpos_main.py)
-   + MAPestimate (in map_estimation.py)
+   + MPestimate (in mp_estimation.py)
      + init_position (in setup_model.py)
      + make_splineknots (in setup_model.py)
      + derivative2 (in setup_model.py)
@@ -149,4 +157,3 @@ since it will create result files for all combinations of hyperparameters.
 
 *Indices #04-#07, #22-#28 will be updated after the estimation.
 
-### EOF

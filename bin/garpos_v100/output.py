@@ -183,7 +183,10 @@ def outresults(odir, suf, cfg, invtyp, imp0, slvidx0,
 	
 	ashot.to_csv( savfile )
 	hd = "# cfgfile = %s\n" % resfile
-	os.system('sed -i -e "1i ' + hd + '" ' + savfile )
+	outfile = open(savfile, "w")
+	outfile.write(hd)
+	outfile.close()
+	ashot.to_csv(savfile, mode='a')
 	
 	######################################################
 	# Write Covariance Matrix and Model Parameter Vector #
